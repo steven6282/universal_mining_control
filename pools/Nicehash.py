@@ -1,10 +1,11 @@
 import json
 import requests
+import os
 
 class Nicehash:
     conf = {}
     region = ""
-    conf_file = './pools/Nicehash.conf'
+    conf_file = os.path.join( '.', 'pools', 'Nicehash.conf' )
     api_url = 'https://api.nicehash.com/api?method='
     def __init__( self ):
         self.conf = json.load( open( self.conf_file ) )
@@ -27,14 +28,12 @@ class Nicehash:
 
         #will need to query api data, it should be cached to not query multiple times in rapid succession
         #maybe store in the conf file the api cache time
-        if len( algoList ) > 1:
+        if len( algoList ) > 0:
             for algo in algoList:
                 if algo in self.conf[ 'algos' ] and self.conf[ 'algos' ][ algo ][ 'enabled' ]:
                     #check profitability
                     newAlgo = algo
                     break
-        elif len( algoList ) != 0:
-            newAlgo = algoList[0]
         return newAlgo
 
     def getUrl( self, algo ):

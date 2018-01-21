@@ -11,8 +11,8 @@ import inspect
 
 #load pools dynamically from ./pools/
 pools = []
-for f in os.listdir( './pools' ):
-    if os.path.isfile( './pools/' + f ):
+for f in os.listdir( os.path.join( '.', 'pools' ) ):
+    if os.path.isfile( os.path.join( '.', 'pools', f ) ):
         if ( f.endswith( '.py' ) or f.endswith( '.pyc' ) ) and not f.startswith( '__' ):
             mod = importlib.import_module( 'pools.' + f[:f.rfind( '.py' )] )
             for name, obj in inspect.getmembers(mod):
@@ -23,9 +23,9 @@ for f in os.listdir( './pools' ):
 
 system = platform.system()
 
-conf = json.load( open( ".\conf\general_settings.conf" ) )
+conf = json.load( open( os.path.join( '.', 'conf', 'general_settings.conf' ) ) )
 #pool_conf = json.load( open( ".\conf\pools.conf" ) )
-miner_conf = json.load( open( ".\conf\miners.conf" ) )
+miner_conf = json.load( open( os.path.join( '.', 'conf', 'miners.conf' ) ) )
 system_algos = miner_conf[ system ]
 #need a conf file for GPUs, store the gpus found in the system
 # flag for enabled / disabled
@@ -52,7 +52,9 @@ for _pool in pools:
 #    pool.setUser( conf[ 'address' ] + '.' + conf[ 'workerName' ] )
 
 current_algo = pool.getAlgo( system_algos )
-
+if current_algo == '':
+    print( 'Unable to determine algo.' )
+    sys.exit()
 #address and workername are in general_settings but can be overridden in pool
 #probably expand this with a function to allow any setting in general to be overridden per pool?
 #address = conf["address"] if pool["address"] == "" else pool["address"]
