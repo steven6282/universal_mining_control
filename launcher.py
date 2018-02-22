@@ -98,6 +98,7 @@ pprint( launch_args )
 #proc = subprocess.Popen( launch_args, shell=False, creationflags=subprocess.CREATE_NEW_CONSOLE )
 
 #add timers for checking for things, updating gpu temps, checking for more profitable aglo, recording rates etc.
+'''
 while True:
     if proc.poll() is not None:
         print( 'Process appears to have died' )
@@ -105,7 +106,7 @@ while True:
 
 if proc.poll() is not None:
     proc.kill()
-
+'''
 '''
 proc = subprocess.Popen( args, shell=False, creationflags=subprocess.CREATE_NEW_CONSOLE )
 
